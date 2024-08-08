@@ -1,0 +1,62 @@
+next js 에서 배울것들
+
+routing, navigation,layout
+ client, server component
+
+
+Failed to compile -> client component에서 실행할려면 use client 문구를 파일 상단에 추가해야한다.
+
+"use client" 문구는 클라이언트에서도 렌더링을 진행할 것이라고 next에게 전달하는 것과 같다.
+===  해당 에러가 발생하는 이유를 알아볼려면 next의 렌더링 방식을 알아야한다===
+rendering이란 next.js가 우리의 react- component를 가져와서, 브라우적 ㅏ이해할 수있는 html로 변환하는 작업을 말함
+
+평범한 react의 render 방식은 csr로 client side rendering이다. 브라우저가 rendering 작업을 한다는 것을 뜻함
+create-react-app을 사용해 react만으로 application을 생성하게되면 csr이 된다.
+react는 사용자 브라우저인 client 단계에서 모든 rendering 작업을 수행해야한다.
+이 방식의 단점으로
+1. 페에지의 실제 소스 코드는 비어있다 > 자바스크립트를 비활성화 시킨 사용자라면 application을 실행조차 시킬 수 없으며, ui조차 볼 수 없다.
+
+. html을 파싱할댸 script 태그의 자바스크립트를 모두 다운로드하고 실행하고 나서 화면에 추가된다.
+ - 자바스크립트 엔진에 의해 추가된 것.
+2. 데이터가 느린환경에서 실행된다면, 모든 자바스크립 파일을 다운로드 완료될때까지 기다려야하며, 그 동안 빈화면을 봐야한다.
+
+3. seo 검색 엔진 최적화.
+사이트를 google에 노출시킬려면 google에게 빈 페이지를 보여주지않는 것이 좋다.
+google은 페이지의 html을 보기 떄문이다. 
+
+
+next는  웹사이트를 빌드할때 자동적으로 default로 ssr이 되며, 페이지의 실제 소스코드가 존재한다.
+이것은 브라우저가 js를 로드할때까지 기다릴 필요가 없다는 것을 의미한다.
+ 
+꼭 기억해야하는 것은 next.js application의 모든 page안의 모든 component들은 next.js가 우선 server에서 render한다는 것이다.
+예로 사용자가 특정 url로 접속하면, 사용자에게 어떠한 html을 주기전에, next.js는 server, 즉 backend에서 application을 render한다.
+next.js는 네 모든 컴포넌트를 render해서 그 html을 가지고, 그걸 브라우저 reqeust에 대한 response로 줄것이다.  
+그렇기 때문에 사용자가 특정 url에 접속해도 비어있는 화면을 보게되지않는 것이다. 
+사용자는 next.js가 backend에[서 생성한 html을 보게 될것이다.
+
+적어도 최초 application의 ui 빌드에서는 js에 의존하지않는다.
+즉, 모든 컴포넌트와 페이즈들은 먼저 backend에서 render된다.
+---react 부가적인 설명---
+react router의 작동방식은 url을 지정하고 Home이라는 컴포넌트 render를 요청하는 것이다.
+사용자가 해당 url에 접근할때
+마찬가지로 /about-us 라는 url에 AboutUs라는 컴포넌트를 연결하는 것 
+
+동적라우팅도 가능하다
+예로 /movies/:id를 붙이면 id값에 따라 동적으로 해당하는 Movie 컴포넌트를 렌더링한다.
+
+위와 같이 react router를 사용할때는 수동적으로 설정해줘야한다.
+이 url은 이 컴포넌트, 저 url은 저 컴포넌트를 렌더링 하게끔 지정한다.
+
+
+하지만 Next.js는 위와같이 작업할 필요가 없다. 파일 시스템을 통해 url을 표현할 것이기 때문
+직접 url을 적어줄 필요없이 폴더명을따라 page.tsx에서 export default 하는 컴포넌트를 반환한다.
+
+app폴더는 root segement라고 부름, 유저가 제일 먼저 보게될 페이지
+
+app 폴더안에 새로운 폴더를 생성함으로서 next.js에게 , 폴더명이 잠재적으로 하나의 페이지가 될 수있다고 알려주는 것이다.
+
+중첩라우팅을 적용하고싶다면 폴더또한 중첩으로 생성하면 된다.
+빈폴더는 경로의 일부분이되며, 해당 빈폴더의 이름으로 url에 접속하면 404 에러를 반환한다
+
+========
+
