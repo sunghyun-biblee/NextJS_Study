@@ -1,0 +1,49 @@
+use client
+* use client는 client에서만 render 된다는 의미가 아니고,
+backend에서 render되고 frontend에서 hydrate 되는 것을 의미*
+
+
+특정 페이지로 이동하게되면 next.js는 응답 하기전에
+ 서버에서 모든 page와 component를 render 하고 (초기 상태를 render)
+ html로 만들어서 응답한다.
+
+ 그리고 백그라운드에서 프레임워크가 초기화되고, 초기 html위에 react application을 생성한다
+
+ 그럼 buuton,link, 등 일반 html이 interactive한 html이 되며,
+ eventListener 들이 추가되며, 웹사이트가 dynamic하고 interactive하게 되는 것이다.
+
+ - server side render된 일반 html이 있고, 사용자가 초기 html을 보게되면
+ - react와 components가 로드되고, 모든것이 초기화되면서, 
+ react application과 next.js application을 생성하게 된다.
+ 
+ ---
+ hydration 과정이 모든 component에 대해 발생하지 않는다.
+
+ server side render는 모든 component에 발생하여, 모든 component들이 server side에서 먼저 render 된다.
+
+ client에서 hydrate 되는 components는 "use client" 지시어를 맨 위에 갖고 있는
+ component들 뿐이다.
+
+ 즉, 상단에 "use client" 지시어가 없다면 React component가 되지않고, hydrate되지 않는다. 
+
+ use client는 framework에게 이런식으로 말한다
+ "이봐, 이 component는 client에서 interactive 해야해"
+ "이 component는 hydrate 되어야해"
+
+ 초기 load에서 next.js는 "use client" 지시어를 가진 component를 "초기에" render 한다.
+
+  그리고 html을 응답하고나서, eventListener들을 추가할 component를 hydrate 하게 된다.
+
+====
+우린 원해하던대로 app을 프로그래밍하고, components를 만들면된다.
+
+예시로 useState를 사용할려는데 use client를 쓰는 것을 깜빡했다면,
+ framework가 "너는 지금 useState를 사용하려는데 use client 지시어가 없어" 라고 
+ 에러를 발생시킨다.
+
+==
+use client가 없는 모든 component 들은 server component가 된다.
+ - use client를 선언하지 않으면, 기본적으로 모두 server component가 된다.
+ - server components는 서버에서 먼저 render 되고, hydrate는 되지않는다.
+ - client 에서 딱 한번만 render 되고 다시는 render 될 일이 없을 경우 (ex.자기 소개)
+ - 즉, 사용자가 Javscript를 적게 다운로드 받아도 된다는 의미이다.

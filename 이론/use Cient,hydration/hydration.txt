@@ -4,7 +4,7 @@ hydration
 그리고 나서 프레임워크는 즉시 load를 시작하며,
 react가 로드되고 components가 로드되고, 모든것이 초기화되면서, html에 js가 추가된다.
 그리고나면 우리 application은 react app 이 된다.
-그러고나서 비로소 interactive 해지고, navigation이 빨라지는 것을 볼 수 있다.
+그러고나서 비로소 interactive 한 웹이 되는 것이다.
  
 hard refresh없이 client side rendering을 할 수있는것
 

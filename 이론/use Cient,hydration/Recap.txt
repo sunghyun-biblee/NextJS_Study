@@ -1,0 +1,27 @@
+A. Next.js의 렌더링하는 방법
+ ** 모든 것이 0순위로 server side rendering 된다, 모든것이 pre-render 된다 **
+
+  1. 특정 페이지로 이동하여 사용자에게 응답을 하기 전, backend에서 pre-render를 진행
+     - 모든 component를 가져가서 JS가 없는 일반 html로 변환하여 사용자에게 전달
+  
+  2. 사용자가 웹사이트에 도착하자마자 우리는 변환한 html을 전달하고, 이후 프레임워크와 React.js를 초기화 한다.
+     - 이때, "use client" 명령어를 가진 component는 hydrate 된다
+     - hydrate는 JS를 다운로드하여, 출력된 html에 적용하는 것 
+
+
+B. use client , hydrate
+ use client 명렁어가 붙은 component는 framework에게 "이 컴포넌트는 interactive한 component"야 라고 알려주는 것과 같다. 
+
+ hydrate을 적용시킬 것을 의미하는 명령어로
+ hydration은 일반 html의 위에서 React application을 실행한다는 뜻이다.
+ - eventListener를 추가하고, interactive 하게 만든다.
+  
+ 특정 컴포넌트만 hydrate 시키기위해 "use client" 명령어를 사용하여 지정하는 것 
+  - js를 다운로드받을 component를 지정하여, 사용자가 다운로드받을 JS의 양을 줄인다.
+
+
+C. server component 안에 client component를 가질 수 있을까?
+가질 수 있다.
+하지만 client component에서는 server component를 가질 수 없다.
+
+use client를 사용하면 모든 요소들이 client component로 지정되기 때문에
