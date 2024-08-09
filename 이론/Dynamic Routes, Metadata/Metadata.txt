@@ -1,0 +1,70 @@
+
+metadata object, route groups
+route groups는 우리의 route들을 그룹화해서, logical groups으로 만들 수 있는 기능이 있다.
+그리고 복잡한 일을 쉽게 할 수 있게도 해준다. 
+
+ex. 특정페이지에서는 rootlayout이 보이지 않도록.
+
+route groups은 "()"를 사용하여 폴더이름을 묶어줘야한다. 
+ex. (home), (about-us)
+
+이런식으로 폴더 이름을 지정해주면 url을 생성하거나, 바꾸지않는다.
+" 괄호 폴더는 url에 영향을 주지 않는다."
+
+
+metadata 
+꼭 내보내야하는 ojbect 이다.
+
+메타데이터는 페이지나, 레이아웃에서만 메타데이터를 내보낼 수 있고,
+컴포넌트에서 메타데이터를 내보낼 수 없다. 
+
+또한 메타데이터는 서버 컴포넌트에서만 사용가능하다.
+
+
+ex)
+export const metadata = {
+  title: "Home | Next Movies",
+  description: "The best movies on the best framework",
+};
+
+
+메타데이터 또한 레이아웃과 같이 중첩되는 방식이지만,
+실제로는 중첩되지않고, 병합된다.
+
+rootlayout에 metadata로 description만 작성한 뒤
+root 페이지와 , about us 페이지에 metadata로 title을 작성 할시
+
+rootlayout에 있는 metadata의 description과 각 페이지별 title과 병합된다.
+
+- description은 rootlayout의 metadata로 존재하여 항상 똑같은 값으로 표시되지만
+- title은 page의 metadata의 title을 가져오기때문에 페이지마다 title이 변경된다.
+
+ex.
+rootlayout_ 
+metadata={
+    description:" rootlayout_description"
+}
+
+about-us_
+metadata={
+    title:"About us Page"
+}
+
+result_ about-us Page
+metadata={
+    title:"About us Page"
+    description:"rootlayout_description"
+}
+
+
+++
+메타데이터에 대한 템플릿을 만들 수 있다.
+title은 꼭 문자열일 필요는 없고, 템플릿을 포함하는 객체일 수 도있다.
+rootlayout_
+export const metadata:Metadata={
+    title:{
+        template:"%s | Next Movies"
+        defalut: "Loading..."
+    }
+    description:"rootlayout_description"
+}

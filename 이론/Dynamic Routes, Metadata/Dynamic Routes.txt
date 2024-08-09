@@ -1,0 +1,36 @@
+dynamic routes는 "/about-us" 처럼 되어있는 route가 아니다.
+ (/about-us는 static route로 정적 라우트 => 항상 똑같아 보임)
+
+dynamic route는 "/movies/123","/movies/456","/movies/789" 처럼 항상 다르다
+
+react-router를 사용했을때 /movies/:id --> 이와 동일함   
+
+app router가 동작하기 위해서는 파일시스템을 이용한다
+
+폴더안에 대괄호를 사용하여 동적으로 할당시킬 페이지 폴더를 생성한다.
+
+movies/[id]
+- [id]가 하는 일은 next.js에게  movies/ 뒤에 무엇이 들어가도 괜찮다는 것을 알려준다.
+- 대괄호를 사용하지않고 "id" 폴더를 생성하였을 때
+    movies/1 --> not found
+    movies/id --> page.tsx의 return 값이 출력된다.
+
+- 대괄호를 사용하여 "[id]" 폴더를 생성하였을 때
+    movies/1 --> page.tsx의 return 값이 출력된다.
+    movies/id --> page.tsx의 return 값이 출력된다.
+
+이 처럼 대괄호를 사용한 폴더명은 url에 어떠한 값이 들어와도 페이지를 출력한다.
+
+대괄호 폴더를 사용하여, 동적 라우팅이 가능함
+
+react-router : /movies/:id
+next.js : /movies/[id]
+
+즉, react-router와 기능은 동일함, 사용하는 방식이 다르고 추가 라이브러리가 필요없다
+
+하지만 next.js의 경우 /[id] 에 어떠한 값도 들어갈 수 있기 때문에 숫자가 아닌 문자열도 들어갈 수있다.
+
+/movies/안녕하세요
+/movies/hello
+
+텍스트를 허용하고 싶지 않을때에는 몇가지 유효성 검사를 필요로 한다.
