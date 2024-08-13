@@ -16,7 +16,7 @@ metadata
 꼭 내보내야하는 ojbect 이다.
 
 메타데이터는 페이지나, 레이아웃에서만 메타데이터를 내보낼 수 있고,
-컴포넌트에서 메타데이터를 내보낼 수 없다. 
+클라이언트 컴포넌트에서 메타데이터를 내보낼 수 없다. 
 
 또한 메타데이터는 서버 컴포넌트에서만 사용가능하다.
 
@@ -32,9 +32,9 @@ export const metadata = {
 실제로는 중첩되지않고, 병합된다.
 
 rootlayout에 metadata로 description만 작성한 뒤
-root 페이지와 , about us 페이지에 metadata로 title을 작성 할시
+"root 페이지"와 "about us 페이지"에 metadata로 title을 작성 할시
 
-rootlayout에 있는 metadata의 description과 각 페이지별 title과 병합된다.
+rootlayout에 있는 metadata의 description과 각 페이지별 title이 병합된다.
 
 - description은 rootlayout의 metadata로 존재하여 항상 똑같은 값으로 표시되지만
 - title은 page의 metadata의 title을 가져오기때문에 페이지마다 title이 변경된다.
