@@ -1,5 +1,6 @@
 import Link from "next/link";
-
+import Movie from "../../components/Movie";
+import styles from "../../styles/home.module.css";
 export const metadata = {
   title: "home",
 };
@@ -15,12 +16,14 @@ export default async function HomePage() {
   // Next.js가 이 component는 await을 해야하기 때문
   const movies = await getMovies();
   return (
-    <div>
-      <h1>hello</h1>
+    <div className={styles.container}>
       {movies.map((movie) => (
-        <li key={movie.id}>
-          <Link href={`/movies/${movie.id}`}>{movie.title}</Link>
-        </li>
+        <Movie
+          key={movie.id}
+          id={movie.id}
+          poster_path={movie.poster_path}
+          title={movie.title}
+        ></Movie>
       ))}
       {/* {JSON.stringify(movies)} */}
     </div>

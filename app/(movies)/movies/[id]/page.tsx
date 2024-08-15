@@ -1,31 +1,50 @@
-import { API_URL } from "../../../(home)/page";
+import { Suspense } from "react";
+import MovieInfo, { getMovie } from "../../../../components/movie-info";
+import MovieVideos from "../../../../components/movie-videos";
+import { ErrorBoundary } from "next/dist/client/components/error-boundary";
 
-export const metadata = {
-  title: "MovieDetail",
-};
+// export const metadata = {
+//   title: "MovieDetail",
+// };
+// components -> movie-info
+/* 
 async function getMovie(id: string) {
   console.log(`Fetching Movies: ${Date.now()}`);
   await new Promise((resolve) => setTimeout(resolve, 1000));
   const res = await fetch(`${API_URL}/${id}`);
   return res.json();
 }
+*/
+
+// components -> movie-videos
+/* 
 async function getVideos(id: string) {
   console.log(`Fetching Movies: ${Date.now()}`);
   await new Promise((resolve) => setTimeout(resolve, 1000));
   const res = await fetch(`${API_URL}/${id}/videos`);
   return res.json();
 }
+  */
 
-export default async function MovieDetail({
-  params: { id },
-}: {
+interface IParmas {
   params: { id: string };
-}) {
-  console.log("==============");
-  console.log("start Fetching");
-  const [movie, videos] = await Promise.all([getMovie(id), getVideos(id)]);
-  console.log("end Fetching");
-  return <h1>{movie.title}</h1>;
+}
+
+export async function generateMetadata({ params: { id } }: IParmas) {
+  const movie = await getMovie(id);
+  return { title: movie.title };
+}
+export default async function MovieDetail({ params: { id } }: IParmas) {
+  return (
+    <div>
+      <Suspense fallback={<h1>Loading Movie Info</h1>}>
+        <MovieInfo id={id}></MovieInfo>
+      </Suspense>
+      <Suspense fallback={<h1>Loading Movie Videos</h1>}>
+        <MovieVideos id={id}></MovieVideos>
+      </Suspense>
+    </div>
+  );
 }
 
 // api 요청 작업이 2개 이상일때 하나의 작업시간이 오래걸리고, 다른작업이 빨라도 평균작업 시간은 오래걸리게된다.
@@ -44,5 +63,29 @@ _ await Promise.all([getMovie(id),getVideos(id)])  => 두 작업을 동시에 �
 => prmise.all은 결과값을 이루어진 배열을 가지게 됨
 
 B. 모든 작업이 끝나게되면 , promise.all이 결과값으로 이루어진 배열을 반환한다.
+이 때 제일 긴 작업 소요시간이 5분이라고 가정하였을 때, 다른 데이터를 사용하기 위해서는 작업이 끝나는 시간인 5분뒤에 데이터를 사용할 수 있기 때문에
+작업이 먼저 끝난다면 해당 데이터를 사용할 수있도록 suspense를 통해 병렬적으로 처리가 가능하다
 
+
+C. 작업은 병렬적으로 처리하나 만약 getMovie 작업이 먼저 끝나게 된다면
+getMovie 데이터를 활용하여 ui를 먼저 보여주고, 이후 getVideos 작업이 끝나게되면 
+이어서 getVideos를 활용하여 ui를 보여준다
+
+await Promise.all([getMovie(id), getVideos(id)]);
+이 코드로는 두 작업이 모두 끝난 이후 ui를 보여줄 수 있기 때문에,
+ 작업을 동시에 시작하나, 작업은 먼저 끝나면 기다리지않고 ui를 보여주게 만들것이다
+
+- 많은 데이터를 fetch할때에는 page파일에서 데이터를 fetch 한다
+- 자동적으로 loading component가 화면에 생길 것이고, fetch이 완료되면 자동으로 바뀌기 때문이다.
+- 하지만 데이터 소스가 여러 개라면, Suspense를 사용하면 좋다
+
+ex) 여러개의 작업을 컴포넌트 단위로 분리하여, 데이터를 패칭
+Movie => MovieInfo , videos => MovieVideos
+
+D. Error Handling (에러 헨들링)
+어플리케이션 사용중 에러가 발생하였을때, 특정 페이지로 이동할 수 있도록 도와주거나,
+어떤 에러가 발생했는지 알려줄 수 있다.
+  파일명 : error.tsx
+  - error component에는 반드시 use client를 추가 해야한다.
+  - 
 */
