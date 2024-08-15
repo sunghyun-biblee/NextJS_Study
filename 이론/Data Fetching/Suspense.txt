@@ -1,0 +1,17 @@
+Suspense
+
+Suspense 컴포넌트 안에있는 요소는 
+Suspense가 데이터를 fetch 하기위해 MovieInfo component를 await 하는것 
+fetch 중에는 fallback props로 전달한 컴포넌트를 render 하게된다. 
+fetch 가 끝나게되면 component의 실제 UI를 보여줄 것이다.
+
+- Suspense component에는 fallback이라는 props가 있고, component는 await 되는동안
+표시할 메시지를 render 할 수 있게 해준다.
+
+```
+ <div>
+    <Suspense fallback={<h1>Loading...</h1>}>
+        <MovieInfo id={id}></MovieInfo>
+    </Suspense>
+ </div>
+```

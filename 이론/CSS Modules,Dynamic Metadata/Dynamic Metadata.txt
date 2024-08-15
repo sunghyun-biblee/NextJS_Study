@@ -1,0 +1,21 @@
+동적으로 메타데이터 설정하기
+
+export async function generateMetadata (){
+    return {
+        title: `${titleName}`
+    }
+}
+동적인 제목을 갖는 페이지를 위한 
+메타데이터를 만들어줄 함수
+generateMetadata 함수는 동적일 수 있는 metadata를 불러오가 위해 자동으로 호출된다.
+*export 꼭 해줘야 프레임워크가 해당 함수를 찾는다.
+
+
+[id] 처럼 동적으로 라우팅되는 페이지에서 컴포넌트 뿐만아니라, generateMetadata 함수도 params를 통해 url정보를 가져올 수있다.
+
+
+프레임워크가 page에서 default component를 호출할 것을 알고있다.
+프레임워크는 default component를 props와 함꼐 호출한다.
+
+이와 같이 generateMetadata 함수도 역시 component와 같은 것을 전달 받는다.
+

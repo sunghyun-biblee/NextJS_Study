@@ -1,0 +1,34 @@
+Next.js에서는 styled-components, tailwinds,chakra 등을 설치없이 사용할 수 있다.
+
+A. Application 전체에 적용할 global CSS 파일을 생성
+- CSS 모듈은 말 그대로 CSS를 포함하는 모듈을 생성하는 것
+- 근본적으로 style을 분리해서 "CSS 모듈"을 만든다.
+- CSS를 모듈화 하기전 global style을 만든다.
+    또한 모두가 하는 React CSS를 추가하고 싶은 경우
+    따라서 global style이 필요한 때
+
+1. 위치상관없이 *.module.css 파일을 생성한다
+- .module.css 가 반드시 작성되어야 한다
+- 일반적인 태그를 위한 css 코드를 작성하지않고,
+  클래스명으로 css 코드를 작성할 것이다. 
+  ex/
+  nav { } => X 
+  (selector가 완전하지 않다고 오류를 일으키며, class or id를 부여해야힌디고 알려줌)
+  (일반적인 것은 global styles에 작성해야한다.)
+  .nav { } => O
+  .nav ul { } => O
+
+2. 사용할 페이지에 js파일 처럼 import 한다. 
+- 자바스크립트 파일인 것 처럼 생각해라
+  ex/ import styles from "*/style.module.css"
+
+- 여기서 styles는 className을 보유한 Javascript object 처럼 생각해라
+
+
+3. 적용할 요소에 직접 className을 부여하지않는다
+   ex/
+   <div className="nav"> styles </div> => X
+   <div className={styles.nav}> styles </div> => O
+
+   작성시 개발자 도구에서 className이 style-components와 같이 고유한 문자열을 랜덤하게 가지게 되는 것을 볼 수 있다.
+

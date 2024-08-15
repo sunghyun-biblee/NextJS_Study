@@ -64,3 +64,25 @@ export default async function HomePage() {
  * server component에서 fetch하는 중에 loading 파일을 제공해주면, 해당 파일이 페이지에 나타나게 된다
  (브라우저는 아직 백엔드 작업을 완료하지 못했어, 기다려줘야해 라는 의미로
  Loading 컴포넌트를 페이지에 제공)
+
+
+
+ C. Suspense를 통해 fetch 중일땐 fallback props로 전달한 컴포넌트를 render하고, 
+ page 파일에서 한번에 작업하는 것이 아닌, 컴포넌트로 분리하여 각각의 작업이 병렬적으로 처리되고 먼저 작업이 완료된 순서대로 UI를 출력할 수 있도록함
+
+export default async function MovieDetail({
+  params: { id },
+}: {
+  params: { id: string };
+}) {
+  return (
+    <div>
+      <Suspense fallback={<h1>Loading Movie Info</h1>}>
+        <MovieInfo id={id}></MovieInfo>
+      </Suspense>
+      <Suspense fallback={<h1>Loading Movie Videos</h1>}>
+        <MovieVideos id={id}></MovieVideos>
+      </Suspense>
+    </div>
+  );
+}
